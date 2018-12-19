@@ -11,14 +11,16 @@ export default function(theme={}) {
       justifyContent: 'space-between',
       paddingLeft: 10,
       paddingRight: 10,
-      alignItems: 'center'
+      alignItems: 'flex-start',
+      width: '100%'
     },
     monthText: {
       fontSize: appStyle.textMonthFontSize,
       fontFamily: appStyle.textMonthFontFamily,
       fontWeight: appStyle.textMonthFontWeight,
       color: appStyle.monthTextColor,
-      margin: 10
+      width: '100%',
+      marginVertical: 10
     },
     arrow: {
       padding: 10
