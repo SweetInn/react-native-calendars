@@ -129,7 +129,7 @@ class Day extends Component {
 
     if (this.props.marking) {
       containerStyle.push({
-        borderRadius: 17
+        borderRadius: 17,
       });
 
       const flags = this.markingStyle;
@@ -145,32 +145,90 @@ class Day extends Component {
       if (flags.rightFillerStyle) {
         rightFillerStyle.backgroundColor = flags.rightFillerStyle;
       }
-
       if (flags.startingDay && !flags.endingDay) {
-        leftFillerStyle = {
-          backgroundColor: this.theme.calendarBackground
-        };
-        rightFillerStyle = {
-          backgroundColor: flags.startingDay.color
-        };
-        containerStyle.push({
-          backgroundColor: flags.startingDay.color
-        });
+        if (this.props.marking.customStyles && typeof this.props.marking.customStyles === 'object') {
+          const styles = this.props.marking.customStyles;
+          if (styles.container) {
+            containerStyle.push(styles.container);
+          }
+          if (styles.text) {
+            textStyle.push(styles.text);
+          }
+
+          if (styles.filler){
+            leftFillerStyle = {
+              backgroundColor: this.theme.calendarBackground,
+              ...styles.filler
+            };
+            rightFillerStyle = {
+              backgroundColor: flags.startingDay.color,
+              ...styles.filler
+            };
+          }
+        }else{
+          containerStyle.push({
+            backgroundColor: flags.startingDay.color
+          });
+          leftFillerStyle = {
+            backgroundColor: this.theme.calendarBackground,
+          };
+          rightFillerStyle = {
+            backgroundColor: flags.startingDay.color,
+          };
+        }
       } else if (flags.endingDay && !flags.startingDay) {
-        rightFillerStyle = {
-          backgroundColor: this.theme.calendarBackground
-        };
-        leftFillerStyle = {
-          backgroundColor: flags.endingDay.color
-        };
-        containerStyle.push({
-          backgroundColor: flags.endingDay.color
-        });
+        if (this.props.marking.customStyles && typeof this.props.marking.customStyles === 'object') {
+          const styles = this.props.marking.customStyles;
+          if (styles.container) {
+            containerStyle.push(styles.container);
+          }
+          if (styles.text) {
+            textStyle.push(styles.text);
+          }
+          if (styles.filler){
+            leftFillerStyle = {
+              backgroundColor: flags.endingDay.color,
+              ...styles.filler
+            };
+            rightFillerStyle = {
+              backgroundColor: this.theme.calendarBackground,
+              ...styles.rightFiller,
+            };
+          }
+        }else{
+          containerStyle.push({
+            backgroundColor: flags.endingDay.color
+          });
+          rightFillerStyle = {
+            backgroundColor: this.theme.calendarBackground,
+          };
+          leftFillerStyle = {
+            backgroundColor: flags.endingDay.color,
+          };
+        }
       } else if (flags.day) {
-        leftFillerStyle = {backgroundColor: flags.day.color};
-        rightFillerStyle = {backgroundColor: flags.day.color};
-        // #177 bug
-        fillerStyle = {backgroundColor: flags.day.color};
+        if (this.props.marking.customStyles && typeof this.props.marking.customStyles === 'object') {
+          const styles = this.props.marking.customStyles;
+          if (styles.filler){
+            leftFillerStyle = {
+              backgroundColor: flags.day.color,
+              ...styles.filler
+            };
+            rightFillerStyle = {
+              backgroundColor: flags.day.color,
+              ...styles.filler,
+            };
+            fillerStyle = {
+              backgroundColor: flags.day.color,
+              ...styles.filler,
+            };
+          }
+        }else{
+          leftFillerStyle = {backgroundColor: flags.day.color};
+          rightFillerStyle = {backgroundColor: flags.day.color};
+          // #177 bug
+          fillerStyle = {backgroundColor: flags.day.color};
+        }
       } else if (flags.endingDay && flags.startingDay) {
         rightFillerStyle = {
           backgroundColor: this.theme.calendarBackground
@@ -179,7 +237,7 @@ class Day extends Component {
           backgroundColor: this.theme.calendarBackground
         };
         containerStyle.push({
-          backgroundColor: flags.endingDay.color
+          backgroundColor: flags.endingDay.color,
         });
       }
 
