@@ -156,10 +156,6 @@ class Day extends Component {
           }
 
           if (styles.filler){
-            leftFillerStyle = {
-              backgroundColor: this.theme.calendarBackground,
-              ...styles.filler
-            };
             rightFillerStyle = {
               backgroundColor: flags.startingDay.color,
               ...styles.filler
